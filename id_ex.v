@@ -8,8 +8,8 @@ module id_ex (
     input wire[`AluSelBus] id_alusel,
     input wire[`RegBus] id_reg1,
     input wire[`RegBus] id_reg2,
-    input wire[`RegAddrBus] id_wd,
-    input wire id_wreg,
+    input wire[`RegAddrBus] id_wd,  //write target address
+    input wire id_wreg, //write target register
 
     output reg[`AluOpBus] ex_aluop,
     output reg[`AluSelBus] ex_alusel,
