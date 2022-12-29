@@ -2,6 +2,13 @@
 `include "pc_reg.v"
 `include "if_id.v"
 `include "id.v"
+`include "regfile.v"
+`include "id_ex.v"
+`include "ex.v"
+`include "ex_mem.v"
+`include "mem.v"
+`include "mem_wb.v"
+`include "wb.v"
 
 module openmips (
     input wire clk,
@@ -81,4 +88,12 @@ module openmips (
             .reg1_o(id_reg1_o), .reg2_o(id_reg2_o),
             .wd_o(id_wd_o), .wreg_o(id_wreg_o)
             );
+
+    //initialize regfile
+    regfile regfile1(.clk(clk), .rst(rst), .we(wb_wreg_i),
+                    .waddr(wb_wd_i), .wdata(wb_wdata_i), .re1(reg1_read),
+                    .raddr1(reg1_addr), .rdata1(reg1_data),
+                    .re2(reg2_read), .raadr2(reg2_addr), .rata2(read2_data)
+                    )
+    id_ex id_ex0()
 endmodule
