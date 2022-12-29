@@ -13,5 +13,20 @@ module ex (
     output reg wreg_o,
     output reg[`RegBus] wdata_o
 );
-    
+    reg[`RegBus] logicout; //store result
+
+    always @(*) begin
+        if(rst == `RstEnable) begin
+            logicout <= `ZeroWord;
+        end else begin
+            case (aluop_i)
+                `EXE_OR_OP:begin
+                    logicout <= reg1_i | reg2_i;
+                end 
+                default: begin
+                    logicout <= `ZeroWord;
+                end
+            endcase
+        end //end if
+    end //end always
 endmodule
