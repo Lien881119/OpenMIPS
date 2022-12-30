@@ -95,7 +95,8 @@ module openmips (
                     .raddr1(reg1_addr), .rdata1(reg1_data),
                     .re2(reg2_read), .raadr2(reg2_addr), .rata2(read2_data)
                     );
-                    
+
+    //initialize id_ex                
     id_ex id_ex0(.clk(clk), .rst(rst),
                 //from id
                 .id_aluop(id_aluop_o), .id_alusel(id_alusel_o),
@@ -106,4 +107,38 @@ module openmips (
                 .ex_reg1(ex_reg1_i), .ex_reg2(ex_reg2_i),
                 .ex_wd(ex_wd_i), .ex_wreg(ex_wreg_i)
                 );
+
+    //initialize ex
+    ex ex0(.rst(rst), 
+            //from id_ex
+            .aluop_i(ex_aluop_i), .alusel_i(ex_alusel_i),
+            .reg1_i(ex_reg1_i), .reg2_i(ex_reg2_i),
+            .wd_i(ex_wd_i), .wreg_i(ex_wreg_i),
+            //to ex_mem
+            .wd_o(ex_wd_o), .wreg_o(ex_wreg_o),
+            .wdata_o(ex_wdata_o)
+            );
+
+    //initialize ex_mem
+    ex_mem ex_mem0(
+        .clk(clk), .rst(rst),
+        //from ex
+        .ex_wd(ex_wd_o), .ex_wreg(ex_wreg_o), .ex_wdata(ex_wdata_o),
+        //to mem
+        .mem_wd(mem_wd_i), .mem_wreg(mem_wd_i), .mem_wdata(mem_wdata_i)
+    );
+
+    //initialize mem
+    mem mem0(.rst(rst), 
+    //from ex_mem
+    .wd_i(mem_wd_i), .wdata_i(mem_wdata_i), .wreg_i(mem_wreg_i),
+    //to wb
+    .wd_o(mem_wd_o), .wreg_o(mem_wd_o), .wdata_o(mem_wdata_o)
+    );
+    mem_wb mem_wb0(
+        //from mem
+        .mem_wb(mem_wb_o), .mem_wreg(mem_wreg_o), .mem_wdata(mem_wdata_o),
+        //to wb
+        .wb_wd(wb_wd_i), .wb_wreg(wb_wreg_i), .wb_wdata(wb_wdata_i)
+    );
 endmodule
