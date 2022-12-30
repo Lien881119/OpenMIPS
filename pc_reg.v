@@ -16,10 +16,10 @@ module pc_reg (
     end
 
     always @(posedge clk ) begin
-        if (ce==`ChipDisable) begin
+        if (ce_o==`ChipDisable) begin
             pc_o <= 32'b00000000;
         end else begin
-            pc_o <= pc + 4'h4; 
+            pc_o <= pc_o + 4'h4; 
         end
     end
 endmodule

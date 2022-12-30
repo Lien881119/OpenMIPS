@@ -12,7 +12,7 @@ module openmips_min_sopc (
 
     //initialize OPENMIPS
     openmips openmips0(.clk(clk), .rst(rst), .rom_addr_o(inst_addr), 
-    .rom_data_i(inst), .rom_ce(rom_ce)
+    .rom_data_i(inst), .rom_ce_o(rom_ce)
     );
     
     //initialize inst_rom

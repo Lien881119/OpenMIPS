@@ -8,7 +8,6 @@
 `include "ex_mem.v"
 `include "mem.v"
 `include "mem_wb.v"
-`include "wb.v"
 
 module openmips (
     input wire clk,
@@ -57,7 +56,7 @@ module openmips (
 
     //mem_wb -> wb
     wire wb_wreg_i;
-    wire[`RegAddrBus] wb_wreg_i;
+    wire[`RegAddrBus] wb_wd_i;
     wire[`RegBus] wb_wdata_i;
 
     //id -> Regfile
@@ -69,7 +68,7 @@ module openmips (
     wire[`RegAddrBus] reg2_addr;
 
     //initialize pc_reg
-    pc_reg pc_reg0(.clk(clk), .rst(rst), .pc(pc), .ce(rom_ce_o));
+    pc_reg pc_reg0(.clk(clk), .rst(rst), .pc_o(pc), .ce_o(rom_ce_o));
 
     assign rom_addr_o = pc;
 
@@ -79,7 +78,7 @@ module openmips (
     );
     
     //initialize id
-    id id0(.rst(rst), pc_i(id_pc_i), .inst_i(id_inst_i), 
+    id id0(.rst(rst), .pc_i(id_pc_i), .inst_i(id_inst_i), 
             //from Regfile
             .reg1_data_i(reg1_data), .reg2_data_i(reg2_data),
             //to Regfile
@@ -95,15 +94,15 @@ module openmips (
     regfile regfile1(.clk(clk), .rst(rst), .we(wb_wreg_i),
                     .waddr(wb_wd_i), .wdata(wb_wdata_i), .re1(reg1_read),
                     .raddr1(reg1_addr), .rdata1(reg1_data),
-                    .re2(reg2_read), .raadr2(reg2_addr), .rata2(read2_data)
+                    .re2(reg2_read), .raddr2(reg2_addr), .rdata2(reg2_data)
     );
 
     //initialize id_ex                
     id_ex id_ex0(.clk(clk), .rst(rst),
                 //from id
                 .id_aluop(id_aluop_o), .id_alusel(id_alusel_o),
-                .id_reg1(id_reg1_o), id_reg2(id_reg2_o),
-                .id_wd(id_wd_o), id_wreg(id_wreg_o),
+                .id_reg1(id_reg1_o), .id_reg2(id_reg2_o),
+                .id_wd(id_wd_o), .id_wreg(id_wreg_o),
                 //to ex
                 .ex_aluop(ex_aluop_i), .ex_alusel(ex_alusel_i),
                 .ex_reg1(ex_reg1_i), .ex_reg2(ex_reg2_i),
@@ -127,7 +126,7 @@ module openmips (
         //from ex
         .ex_wd(ex_wd_o), .ex_wreg(ex_wreg_o), .ex_wdata(ex_wdata_o),
         //to mem
-        .mem_wd(mem_wd_i), .mem_wreg(mem_wd_i), .mem_wdata(mem_wdata_i)
+        .mem_wd(mem_wd_i), .mem_wreg(mem_wreg_i), .mem_wdata(mem_wdata_i)
     );
 
     //initialize mem
@@ -135,11 +134,13 @@ module openmips (
     //from ex_mem
     .wd_i(mem_wd_i), .wdata_i(mem_wdata_i), .wreg_i(mem_wreg_i),
     //to wb
-    .wd_o(mem_wd_o), .wreg_o(mem_wd_o), .wdata_o(mem_wdata_o)
+    .wd_o(mem_wd_o), .wreg_o(mem_wreg_o), .wdata_o(mem_wdata_o)
     );
+
     mem_wb mem_wb0(
+        .clk(clk), .rst(rst),
         //from mem
-        .mem_wb(mem_wb_o), .mem_wreg(mem_wreg_o), .mem_wdata(mem_wdata_o),
+        .mem_wd(mem_wd_o), .mem_wreg(mem_wreg_o), .mem_wdata(mem_wdata_o),
         //to wb
         .wb_wd(wb_wd_i), .wb_wreg(wb_wreg_i), .wb_wdata(wb_wdata_i)
     );

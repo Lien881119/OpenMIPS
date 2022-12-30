@@ -1,7 +1,14 @@
+`include "define.v"
+`include "openmips_min_sopc.v"
 `timescale 1ns/1ps
 
 module openmips_min_sopc_tb();
 
+    initial
+    begin            
+        $dumpfile("wave.vcd");        
+        $dumpvars(0, openmips_min_sopc_tb);
+    end
     reg CLOCK_50;
     reg rst;
 
@@ -18,5 +25,5 @@ module openmips_min_sopc_tb();
 
     //initialize sopc
     openmips_min_sopc openmips_min_sopc0(.clk(CLOCK_50), .rst(rst));
-    
+
 endmodule

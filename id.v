@@ -36,13 +36,13 @@ module id (
         if(rst == `RstEnable) begin
             aluop_o <= `EXE_NOP_OP;
             alusel_o <= `EXE_RES_NOP;
-            wd_o <= `NOPRgeAddr;
+            wd_o <= `NOPRegAddr;
             wreg_o <= `WriteDisable;
             instvalid <= `InstValid;
             reg1_read_o <= 1'b0;
             reg2_read_o <= 1'b0;
-            reg1_addr_o <= `NOPRgeAddr;
-            reg2_addr_o <= `NOPRgeAddr;
+            reg1_addr_o <= `NOPRegAddr;
+            reg2_addr_o <= `NOPRegAddr;
             imm <= 32'h0;
         end else begin
             aluop_o <= `EXE_NOP_OP;
@@ -62,7 +62,7 @@ module id (
                     alusel_o <= `EXE_RES_LOGIC;
                     reg1_read_o <= 1'b1;
                     reg2_read_o <= 1'b0;
-                    imm <= {16h'0, inst_i[15:0]};
+                    imm <= {16'h0, inst_i[15:0]};
                     wd_o <= inst_i[20:16];
                     instvalid <= `InstValid;
                 end 

@@ -3,18 +3,18 @@
 module if_id (
     input wire rst,
     input wire clk,
-    input wire[`InstAddrBus] if_pc_i,
-    input wire[`InstBus] if_inst_i,
-    output reg[`InstAddrBus] id_pc_o,
-    output reg[`InstBus] id_inst_o 
+    input wire[`InstAddrBus] if_pc,
+    input wire[`InstBus] if_inst,
+    output reg[`InstAddrBus] id_pc,
+    output reg[`InstBus] id_inst 
 );
     always @(posedge clk ) begin
         if(rst == `RstEnable) begin
-            id_pc_o <= `ZeroWord;
-            id_inst_o <= `ZeroWord;
+            id_pc <= `ZeroWord;
+            id_inst <= `ZeroWord;
         end else begin
-            id_pc_o <= if_pc_i;
-            id_inst_o <= if_inst_i;
+            id_pc <= if_pc;
+            id_inst <= if_inst;
         end
     end
 endmodule

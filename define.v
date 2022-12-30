@@ -7,7 +7,7 @@
 `define ReadDisable 1'b0
 
 `define AluOpBus 7:0
-`define AluSeBus 2:0
+`define AluSelBus 2:0
 
 `define InstValid 1'b0
 `define InstInvalid 1'b1
@@ -49,4 +49,4 @@
 `define RegNum 32
 `define RegNumLog2 5
 
-`define NOPRgeAddr 5'b00000
+`define NOPRegAddr 5'b00000
