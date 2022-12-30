@@ -74,7 +74,9 @@ module openmips (
     assign rom_addr_o = pc;
 
     //initialize if_id
-    if_id if_id0(.clk(clk), .rst(rst), .if_pc(pc), .if_inst(rom_data_i), .id_pc(id_pc_i), .id_inst(id_inst_i));
+    if_id if_id0(.clk(clk), .rst(rst), .if_pc(pc), .if_inst(rom_data_i), 
+    .id_pc(id_pc_i), .id_inst(id_inst_i)
+    );
     
     //initialize id
     id id0(.rst(rst), pc_i(id_pc_i), .inst_i(id_inst_i), 
@@ -87,14 +89,14 @@ module openmips (
             .aluop_o(id_aluop_o), .alusel_o(id_alusel_o),
             .reg1_o(id_reg1_o), .reg2_o(id_reg2_o),
             .wd_o(id_wd_o), .wreg_o(id_wreg_o)
-            );
+    );
 
     //initialize regfile
     regfile regfile1(.clk(clk), .rst(rst), .we(wb_wreg_i),
                     .waddr(wb_wd_i), .wdata(wb_wdata_i), .re1(reg1_read),
                     .raddr1(reg1_addr), .rdata1(reg1_data),
                     .re2(reg2_read), .raadr2(reg2_addr), .rata2(read2_data)
-                    );
+    );
 
     //initialize id_ex                
     id_ex id_ex0(.clk(clk), .rst(rst),
@@ -106,7 +108,7 @@ module openmips (
                 .ex_aluop(ex_aluop_i), .ex_alusel(ex_alusel_i),
                 .ex_reg1(ex_reg1_i), .ex_reg2(ex_reg2_i),
                 .ex_wd(ex_wd_i), .ex_wreg(ex_wreg_i)
-                );
+    );
 
     //initialize ex
     ex ex0(.rst(rst), 
@@ -117,7 +119,7 @@ module openmips (
             //to ex_mem
             .wd_o(ex_wd_o), .wreg_o(ex_wreg_o),
             .wdata_o(ex_wdata_o)
-            );
+    );
 
     //initialize ex_mem
     ex_mem ex_mem0(
