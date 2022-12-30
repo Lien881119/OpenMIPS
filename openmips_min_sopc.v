@@ -1,4 +1,6 @@
 `include "define.v"
+`include "openmips.v"
+`include "inst_rom.v"
 
 module openmips_min_sopc (
     input wire clk,
