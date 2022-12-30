@@ -95,9 +95,15 @@ module openmips (
                     .raddr1(reg1_addr), .rdata1(reg1_data),
                     .re2(reg2_read), .raadr2(reg2_addr), .rata2(read2_data)
                     );
+                    
     id_ex id_ex0(.clk(clk), .rst(rst),
                 //from id
                 .id_aluop(id_aluop_o), .id_alusel(id_alusel_o),
-
+                .id_reg1(id_reg1_o), id_reg2(id_reg2_o),
+                .id_wd(id_wd_o), id_wreg(id_wreg_o),
+                //to ex
+                .ex_aluop(ex_aluop_i), .ex_alusel(ex_alusel_i),
+                .ex_reg1(ex_reg1_i), .ex_reg2(ex_reg2_i),
+                .ex_wd(ex_wd_i), .ex_wreg(ex_wreg_i)
                 );
 endmodule
