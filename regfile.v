@@ -53,7 +53,6 @@ module regfile (
         end else begin
             rdata2 <= `ZeroWord;
         end
-
     end
     
 endmodule

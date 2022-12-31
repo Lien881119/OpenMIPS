@@ -5,6 +5,16 @@ module id (
     input wire[`InstAddrBus] pc_i,
     input wire[`InstBus] inst_i,
 
+    //from ex
+    input wire[`RegBus] ex_wdata_i,
+    input wire[`RegAddrBus] ex_wd_i,
+    input wire ex_wreg_i, 
+
+    //from mem
+    input wire[`RegBus] mem_wdata_i,
+    input wire[`RegAddrBus] mem_wd_i,
+    input wire mem_wreg_i, 
+
     //read regfile
     input wire[`RegBus] reg1_data_i,
     input wire[`RegBus] reg2_data_i,
@@ -15,7 +25,7 @@ module id (
     output reg[`RegAddrBus] reg1_addr_o,
     output reg[`RegAddrBus] reg2_addr_o,
 
-    //to exe
+    //to ex
     output reg[`AluOpBus] aluop_o,
     output reg[`AluSelBus] alusel_o,
     output reg[`RegBus] reg1_o,
@@ -75,9 +85,13 @@ module id (
     always @(*) begin
         if(rst == `RstEnable) begin
             reg1_o <= `ZeroWord;
-        end else if (reg1_read_o == 1'b1)begin
+        end else if((reg1_read_o == 1'b1) && (ex_wreg_i == 1'b1) && (ex_wd_i == reg1_addr_o)) begin
+            reg1_o <= ex_wdata_i;
+        end else if((reg1_read_o == 1'b1) && (mem_wreg_i == 1'b1) && (mem_wd_i == reg1_addr_o)) begin
+            reg1_o <= mem_wdata_i;
+        end else if (reg1_read_o == 1'b1) begin
             reg1_o <= reg1_data_i;
-        end else if (reg1_read_o == 1'b0)begin
+        end else if (reg1_read_o == 1'b0) begin
             reg1_o <= imm;
         end else begin
             reg1_o <= `ZeroWord;
@@ -87,9 +101,13 @@ module id (
     always @(*) begin
         if(rst == `RstEnable) begin
             reg2_o <= `ZeroWord;
-        end else if (reg2_read_o == 1'b1)begin
+        end else if((reg2_read_o == 1'b1) && (ex_wreg_i == 1'b1) && (ex_wd_i == reg2_addr_o)) begin
+            reg2_o <= ex_wdata_i;
+        end else if((reg2_read_o == 1'b1) && (mem_wreg_i == 1'b1) && (mem_wd_i == reg2_addr_o)) begin
+            reg2_o <= ex_wdata_i;
+        end else if (reg2_read_o == 1'b1) begin
             reg2_o <= reg2_data_i;
-        end else if (reg2_read_o == 1'b0)begin
+        end else if (reg2_read_o == 1'b0) begin
             reg2_o <= imm;
         end else begin
             reg2_o <= `ZeroWord;
