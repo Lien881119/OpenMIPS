@@ -40,6 +40,12 @@
 `define EXE_SRLV 6'b000110
 `define EXE_SRAV 6'b000111
 `define EXE_SYNC 6'b001111
+`define EXE_MOVN 6'b001011
+`define EXE_MOVZ 6'b001010
+`define EXE_MFHI 6'b010000
+`define EXE_MFLO 6'b010010
+`define EXE_MTHI 6'b010001
+`define EXE_MTLP 6'b010011
 
 `define EXE_NOP  6'b000000
 
