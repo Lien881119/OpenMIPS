@@ -45,7 +45,7 @@
 `define EXE_MFHI 6'b010000
 `define EXE_MFLO 6'b010010
 `define EXE_MTHI 6'b010001
-`define EXE_MTLP 6'b010011
+`define EXE_MTLO 6'b010011
 
 `define EXE_NOP  6'b000000
 
